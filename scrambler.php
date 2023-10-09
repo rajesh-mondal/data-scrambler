@@ -1,3 +1,22 @@
+<?php
+include_once "scramblerf.php";
+$task = 'encode';
+
+if ( isset( $_GET['task'] ) && $_GET['task'] != '' ) {
+    $task = $_GET['task'];
+}
+
+$key = 'abcdefghijklmnopqrstuvwxyz1234567890';
+
+if ( 'key' == $task ) {
+    $key_original = str_split( $key );
+    shuffle( $key_original );
+    $key = join( '', $key_original );
+} else if ( isset( $_REQUEST['key'] ) && $_REQUEST['key'] != '' ) {
+    $key = $_POST['key'];
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +55,6 @@
                 <a href="/scrambler.php?task=encode">Encode</a> |
                 <a href="/scrambler.php?task=decode">Decode</a> |
                 <a href="/scrambler.php?task=key">Generate Key</a>
-
             </p>
         </div>
     </div>
@@ -44,7 +62,7 @@
         <div class="column column-60 column-offset-20">
             <form method="POST" action="scrambler.php">
                 <label for="key">Key</label>
-                <input type="text" name="key" id="key">
+                <input type="text" name="key" id="key" <?php displayKey( $key );?>>
                 <label for="data">Data</label>
                 <textarea name="data" id="data"></textarea>
                 <label for="result">Result</label>
