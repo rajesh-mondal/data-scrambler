@@ -16,6 +16,14 @@ if ( 'key' == $task ) {
     $key = $_POST['key'];
 }
 
+$scrambledData = '';
+if ( 'encode' == $task ) {
+    $data = $_POST['data'] ?? '';
+    if ( $data != '' ) {
+        $scrambledData = scrambleData( $data, $key );
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,9 +72,9 @@ if ( 'key' == $task ) {
                 <label for="key">Key</label>
                 <input type="text" name="key" id="key" <?php displayKey( $key );?>>
                 <label for="data">Data</label>
-                <textarea name="data" id="data"></textarea>
+                <textarea name="data" id="data"><?php if ( isset( $_POST['data'] ) ) {echo $_POST['data'];}?></textarea>
                 <label for="result">Result</label>
-                <textarea id="result"></textarea>
+                <textarea id="result"><?php echo $scrambledData; ?></textarea>
                 <button type='submit'>Do It For Me</button>
             </form>
         </div>
