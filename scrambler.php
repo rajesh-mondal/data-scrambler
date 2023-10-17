@@ -1,13 +1,11 @@
 <?php
 include_once "scramblerf.php";
 $task = 'encode';
-
 if ( isset( $_GET['task'] ) && $_GET['task'] != '' ) {
     $task = $_GET['task'];
 }
 
 $key = 'abcdefghijklmnopqrstuvwxyz1234567890';
-
 if ( 'key' == $task ) {
     $key_original = str_split( $key );
     shuffle( $key_original );
@@ -21,6 +19,13 @@ if ( 'encode' == $task ) {
     $data = $_POST['data'] ?? '';
     if ( $data != '' ) {
         $scrambledData = scrambleData( $data, $key );
+    }
+}
+
+if ( 'decode' == $task ) {
+    $data = $_POST['data'] ?? '';
+    if ( $data != '' ) {
+        $scrambledData = decodeData( $data, $key );
     }
 }
 
@@ -68,7 +73,7 @@ if ( 'encode' == $task ) {
     </div>
     <div class="row">
         <div class="column column-60 column-offset-20">
-            <form method="POST" action="scrambler.php">
+            <form method="POST" action="scrambler.php<?php if ( 'decode' == $task ) {echo "?task=decode";}?>">
                 <label for="key">Key</label>
                 <input type="text" name="key" id="key" <?php displayKey( $key );?>>
                 <label for="data">Data</label>
